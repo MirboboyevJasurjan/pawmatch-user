@@ -16,7 +16,7 @@ const Auth = () => {
     const endpoint = mode === "login" ? "login" : "signup";
 
     try {
-      const res = await fetch(`https://pawmatch-backend-jebr.onrender.com`, {
+      const res = await fetch(`https://pawmatch-backend-production.up.railway.app`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
