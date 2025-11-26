@@ -9,35 +9,42 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // You can move this to env later (VITE_API_URL, etc.)
+  const API_BASE = "https://pawmatchbackend-production.up.railway.app";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+    // decide which route to hit
     const endpoint = mode === "login" ? "login" : "signup";
 
+    // build body depending on mode
+    const body = {
+      email,
+      password,
+      ...(mode === "signup" && { fullName }),
+    };
+
     try {
-      const res = await fetch(`https://pawmatchbackend-production.up.railway.app`, {
+      const res = await fetch(`${API_BASE}/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          fullName: mode === "signup" ? fullName : undefined,
-          email,
-          password,
-        }),
+        body: JSON.stringify(body),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
         alert(data.message || "Something went wrong");
-      } else {
-        // later you can store data.userId in localStorage if you want
-        // localStorage.setItem("userId", data.userId);
-        navigate("/quiz");
+        return;
       }
+
+      // later: localStorage.setItem("userId", data.userId);
+      navigate("/quiz");
     } catch (err) {
       console.error(err);
-      alert("Could not reach server. Is backend running on port 5000?");
+      alert("Could not reach server. Please try again.");
     } finally {
       setLoading(false);
     }
