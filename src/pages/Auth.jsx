@@ -10,7 +10,7 @@ const Auth = () => {
   const navigate = useNavigate();
 
   // later you can move this to env: import.meta.env.VITE_API_URL
-  const API_BASE = "https://pawmatchbackend-production.up.railway.app";
+  const API_BASE = "https://pawmatch-backend-production.up.railway.app";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
