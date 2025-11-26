@@ -9,17 +9,16 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // You can move this to env later (VITE_API_URL, etc.)
+  // later you can move this to env: import.meta.env.VITE_API_URL
   const API_BASE = "https://pawmatchbackend-production.up.railway.app";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    // decide which route to hit
-    const endpoint = mode === "login" ? "login" : "signup";
+    // ✅ this matches your backend: app.use("/auth", authRoutes)
+    const endpoint = mode === "login" ? "auth/login" : "auth/signup";
 
-    // build body depending on mode
     const body = {
       email,
       password,
@@ -40,7 +39,8 @@ const Auth = () => {
         return;
       }
 
-      // later: localStorage.setItem("userId", data.userId);
+      // optionally store userId later:
+      // localStorage.setItem("userId", data.userId);
       navigate("/quiz");
     } catch (err) {
       console.error(err);
